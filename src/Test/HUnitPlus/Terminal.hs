@@ -40,8 +40,8 @@ ta f bs as ('\n':cs) = ta (\t -> f (reverse bs ++ as ++ '\n' : t)) "" "" cs
 ta f bs as ('\r':cs) = ta f "" (reverse bs ++ as) cs
 ta f (b:bs) as ('\b':cs) = ta f bs (b:as) cs
 ta _ "" _ ('\b': _) = error "'\\b' at beginning of line"
-ta f bs as (c:cs) 
+ta f bs as (c:cs)
     | not (isPrint c) = error "invalid nonprinting character"
     | null as = ta f (c:bs) "" cs
-    | otherwise = ta f (c:bs) (tail as) cs
+    | otherwise = ta f (c:bs) (drop 1 as) cs
 ta f bs as "" = f (reverse bs ++ as)
